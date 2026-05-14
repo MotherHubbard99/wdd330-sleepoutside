@@ -2,8 +2,20 @@ import { getLocalStorage } from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
-  const htmlItems = cartItems.map((item) => cartItemTemplate(item));
-  document.querySelector(".product-list").innerHTML = htmlItems.join("");
+
+  // This will check if cartItems exist and is actually an array
+  if (cartItems && Array.isArray(cartItems)) {
+    const htmlItems = cartItems.map((item) => cartItemTemplate(item));
+    document.querySelector(".product-list").innerHTML = htmlItems.join("");
+  } else if (cartItems) {
+    // This handles the case where only ONE item is in the cart (not in an array)
+    const htmlItem = cartItemTemplate(cartItems);
+    document.querySelector(".product-list").innerHTML = htmlItem;
+  } else {
+    // Handle an empty cart
+    document.querySelector(".product-list").innerHTML =
+      "<p>Your cart is empty.</p>";
+  }
 }
 
 function cartItemTemplate(item) {
