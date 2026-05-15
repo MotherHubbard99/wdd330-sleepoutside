@@ -32,11 +32,31 @@ export function getParam(param) {
   return product;
 }
 
-export function renderListWithTemplate(template, parentElement, list, position = "afterbegin", clear = false) {
+export function renderListWithTemplate(templateFn, parentElement, list, position = "afterbegin", clear = true) {
   const htmlStrings = list.map(template);
   // if clear is true we need clear parent element before inserting new content
   if (clear) {
     parentElement.innerHTML = "";
   }
+  const htmlStrings = list.map(templateFn);
+  parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
+}
+
+export function renderListWithTemplate (
+  templateFn,
+  parentElement,
+  list,
+  position ="afterbegin",
+  clear = true
+) {
+  // Step 4: Clear the element if 'clear' is true 
+  if (clear) {
+    parentElement.innerHTML = "";
+  }
+
+  // Step 2: Use map to transform data into HTML strings 
+  const htmlStrings = list.map(templateFn);
+
+  // Step 2: Join and insert into the DOM 
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
 }

@@ -42,7 +42,9 @@ export default class ProductDetails {
     renderProductDetails(selector) {
         const element = document.querySelector(selector);
         // Call the template and inject it into the 'main' element 
-        element.insertAdjacentHTML("afterBegin", productDetailsTemplate(this.product));
+
+
+        element.innerHTML= productDetailsTemplate(this.product);
 
     }
 }
