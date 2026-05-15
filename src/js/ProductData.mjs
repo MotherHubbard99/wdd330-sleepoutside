@@ -9,6 +9,7 @@ function convertToJson(res) {
 export default class ProductData {
   constructor(category) {
     this.category = category;
+    // The leading slash tells Vite to look in the root (public folder)
     this.path = `/json/${this.category}.json`;
   }
   getData() {
