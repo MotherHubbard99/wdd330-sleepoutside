@@ -22,7 +22,7 @@ export default class ProductData {
 
     // Build the path to the JSON file for this category
     // Example: if category = "tents", path becomes "../json/tents.json"
-    this.path = `../json/${this.category}.json`;
+    this.path = `../json/${this.category}.json`; 
   }
 
   getData() {
