@@ -21,11 +21,6 @@ export default class ProductList {
     renderList(list) {
         // This replaces all the manual innerHTML and map/join logic
         renderListWithTemplate(productCardTemplate, this.listElement, list);
-
-        // We then generate HTML for each product and join them into one string 
-        const htmlString = list.map(productCardTemplate);
-        // This joins the array of strings into one big string and adds to the DOM 
-        this.listElement.insertAdjacentHTML("afterbegin", htmlString.join(""));
     }
 }
 
