@@ -32,13 +32,13 @@ export function getParam(param) {
   return product;
 }
 
-//commented out for now, but this is a helper function to render a list of items using a template function and insert it into the DOM
 
-// export function renderListWithTemplate(template, parentElement, list, position = "afterbegin", clear = false) {
-//   const htmlStrings = list.map(template);
-//   // if clear is true we need clear parent element before inserting new content
-//   if (clear) {
-//     parentElement.innerHTML = "";
-//   }
-//   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
-// }
+
+export function renderListWithTemplate(template, parentListElement, list, position = "afterbegin", clear = false) {
+  const htmlStrings = list.map(template);
+  // if clear is true we need clear parent element before inserting new content
+  if (clear) {
+    parentListElement.innerHTML = "";
+  }
+  parentListElement.insertAdjacentHTML(position, htmlStrings.join(""));
+}
