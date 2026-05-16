@@ -1,5 +1,5 @@
 function convertToJson(res) {
-  // Helper function to handle fetch responses
+  // Helper function to handle fetch responses         
   // 'res' is the Response object returned by fetch()
 
   if (res.ok) {
