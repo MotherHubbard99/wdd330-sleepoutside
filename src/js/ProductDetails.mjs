@@ -12,7 +12,7 @@ export default class ProductDetails {
         // productId: the ID of the product to display
         // dataSource: an object with methods to fetch product data, e.g., from an API or file
         this.productId = productId; // Store the product ID for later use
-        this.product = {}; // Initialize an empty object to hold product data
+        this.product = {}; // Initialize an empty object literal to hold product data
         this.dataSource = dataSource;// Store the data source so we can call its methods
     }
 
@@ -22,6 +22,7 @@ export default class ProductDetails {
 
         // Use the dataSource to fetch product details by ID from the database/API
         this.product = await this.dataSource.findProductById(this.productId);
+        console.log(this.product);
 
         // Once we have the product data, render it to the page
         this.renderProductDetails(this.product);
@@ -34,6 +35,7 @@ export default class ProductDetails {
     }
 
     addProductToCart(product) {
+        console.log(this.product);
         // This method runs when the user clicks "Add to Cart"
         // It adds the current product to the cart stored in localStorage
 
@@ -41,7 +43,7 @@ export default class ProductDetails {
         const cartItems = getLocalStorage("so-cart") || [];
 
         // Add the new product object to the cart array
-        cartItems.push(product);
+        cartItems.push(this.product);
 
         // Save the updated cart array back to localStorage under the key "so-cart"
         setLocalStorage("so-cart", cartItems);
@@ -50,7 +52,7 @@ export default class ProductDetails {
     renderProductDetails(product) {
         // This method is responsible for putting product data into the HTML
         // It delegates the actual HTML manipulation to productDetailsTemplate
-        productDetailsTemplate(product);
+        productDetailsTemplate(this.product);
     }
 }
 
@@ -81,3 +83,4 @@ function productDetailsTemplate(product) {
     // This lets addProductToCart know which product was clicked if needed
     document.getElementById('addToCart').dataset.id = product.Id;
 }
+
