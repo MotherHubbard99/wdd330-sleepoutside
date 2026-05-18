@@ -19,12 +19,12 @@ function addProductToCart(product) {
 }
 
 // add to cart button event handler
-=======
+
 const product = new ProductDetails(productId, dataSource);
 product.init();
 
 /* // add to cart button event handler
->>>>>>> 3fdf26c1246813178513778cb7c8c99762ec12ae
+3fdf26c1246813178513778cb7c8c99762ec12ae
 async function addToCartHandler(e) {
   const product = await dataSource.findProductById(e.target.dataset.id);
 
