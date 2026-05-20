@@ -60,7 +60,7 @@ export async function loadTemplate(path) {
   return template;
 }
 
-export function loadHeaderFooter(){
+export async function loadHeaderFooter(){
 
   const headerTemplate = await loadTemplate("../partials/header.html");
 
