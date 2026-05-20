@@ -34,7 +34,9 @@ export function getParam(param) {
 
 
 
-export function renderListWithTemplate(template, parentListElement, list, position = "afterbegin", clear = false) {
+export function renderListWithTemplate(template, parentListElement, list, position = "afterbegin", clear = true) {
+    
+ 
   const htmlStrings = list.map(template);
   // if clear is true we need clear parent element before inserting new content
   if (clear) {

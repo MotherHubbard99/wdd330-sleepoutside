@@ -42,12 +42,31 @@ export default class ProductDetails {
         // Get existing cart items from localStorage. If none exist, use an empty array
         const cartItems = getLocalStorage("so-cart") || [];
 
-        // Add the new product object to the cart array
+
+ // Check if product already in cart
+    const existingItem = cartItems.find(item => item.Id === this.product.Id);
+
+    if (existingItem) {
+        // If it exists, bump quantity
+        existingItem.quantity += 1;
+    } else {
+        // If it's new, set quantity to 1 and add it
+        this.product.quantity = 1;
         cartItems.push(this.product);
+    }
 
         // Save the updated cart array back to localStorage under the key "so-cart"
         setLocalStorage("so-cart", cartItems);
-    }
+
+ 
+      if (existingItem.FinalPrice < existingItem.SuggestedRetailPrice){
+        const discount = existingItem.SuggestedRetailPrice - existingItem.FinalPrice;
+           discountElement.textContent = `Discounted Price: $${discount.toFixed(2)}`;
+        }
+           
+}
+    
+
 
     renderProductDetails(product) {
         // This method is responsible for putting product data into the HTML
@@ -83,4 +102,6 @@ function productDetailsTemplate(product) {
     // This lets addProductToCart know which product was clicked if needed
     document.getElementById('addToCart').dataset.id = product.Id;
 }
+
+
 
