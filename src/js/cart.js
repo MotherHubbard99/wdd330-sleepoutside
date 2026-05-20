@@ -37,10 +37,7 @@ document
   .addEventListener("click", (event) => {
     if (event.target.classList.contains("remove")) {
       const itemId = event.target.dataset.id;
-      //const cartItems = getLocalStorage("so-cart");
-      //const updatedCartItems = cartItems.filter((item) => item.Id !== itemId);
-      //localStorage.setItem("so-cart", JSON.stringify(updatedCartItems));
-      //renderCartContents();
+     
       removeFromCart(itemId);
     }
   });
