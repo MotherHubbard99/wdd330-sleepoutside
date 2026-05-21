@@ -10,8 +10,8 @@ function productCardTemplate(product) {
             <img src="${product.Image}" alt="Image of ${product.Name}">
             <h2 class="card__brand">${product.Brand}</h2>
             <h3 class="card__name">${product.Name}</h3>
-            <p>discounted price: $${discount.toFixed(2)}</p>
-            <p class="product-card__price">$${product.FinalPrice.toFixed(2)}</p>
+            <p>Discounted Price: $${discount.toFixed(2)}</p>
+            <p class="product-card__price">Final Price: $${product.FinalPrice.toFixed(2)}</p>
           </a>
         </li>`;
       } else {
