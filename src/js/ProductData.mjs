@@ -1,3 +1,5 @@
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 function convertToJson(res) {
   // Helper function to handle fetch responses         
   // 'res' is the Response object returned by fetch()
@@ -16,23 +18,15 @@ export default class ProductData {
   // This class handles loading product data for a specific category
   // Exported as default so you can import it with any name
 
-  constructor(category) {
-    // category: string like "tents", "backpacks", etc.
-    this.category = category;
 
-    // Build the path to the JSON file for this category
-    // Example: if category = "tents", path becomes "../json/tents.json"
-    this.path = `../json/${this.category}.json`; 
-  }
 
-  getData() {
+ async getData(category) {
     // Fetch the JSON file for this category and return the parsed data
     // Uses .then() chain instead of async/await
 
-    return fetch(this.path)           // Make a GET request to the JSON file
-      .then(convertToJson)            // Pass the response through convertToJson to parse it
-      .then((data) => data);          // Just return the data as-is. This line is redundant but harmless
-                                      // You could simplify to: return fetch(this.path).then(convertToJson)
+    const response = await fetch(`${baseURL}products/search/${category} `);
+    const data = await convertToJson(response);
+    return data.Result;       
   }
 
   async findProductById(id) {
