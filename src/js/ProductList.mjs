@@ -1,55 +1,41 @@
 import { renderListWithTemplate } from "./utils.mjs";
 
-function productCardTemplate(product) {
-   
-      if (product.FinalPrice < product.SuggestedRetailPrice){
-        const discount = product.SuggestedRetailPrice - product.FinalPrice;
 
-        return `<li class="product-card">
-          <a href="product_pages/?product=${product.Id}">
-            <img src="${product.Image}" alt="Image of ${product.Name}">
-            <h2 class="card__brand">${product.Brand}</h2>
-            <h3 class="card__name">${product.Name}</h3>
-            <p>Discounted Price: $${discount.toFixed(2)}</p>
-            <p class="product-card__price">Final Price: $${product.FinalPrice.toFixed(2)}</p>
-          </a>
-        </li>`;
-      } else {
-        return `<li class="product-card">
-          <a href="product_pages/?product=${product.Id}">
-            <img src="${product.Image}" alt="Image of ${product.Name}">
-            <h2 class="card__brand">${product.Brand}</h2>
-            <h3 class="card__name">${product.Name}</h3>
-            <p class="product-card__price">$${product.FinalPrice.toFixed(2)}</p>
-          </a>
-        </li>`;
-      }
+function productCardTemplate(product) {
+  return `
+    <li class="product-card">
+      <a href="/product_pages/?product=${product.Id}">
+        <img src="${product.Images.PrimaryMedium}" alt="${product.Name}">
+        <h3>${product.Brand.Name}</h3>
+        <p>${product.NameWithoutBrand}</p>
+        <p class="product-card__price">$${product.FinalPrice}</p>
+        <p class="discount">${product.SuggestedRetailPrice > product.FinalPrice ? 'Discounted' : ''}</p>
+      </a>
+    </li>
+    `;
 }
 
 export default class ProductList {
-  constructor(category, dataSource, parentListElement) {
+  constructor(category, dataSource, listElement) {
     this.category = category;
     this.dataSource = dataSource;
-    this.parentListElement = parentListElement;
+    this.listElement = listElement;
   }
 
   async init() {
-   const list = await this.dataSource.getData(this.category);
+    const list = await this.dataSource.getData(this.category);
+    this.renderList(list);
     console.log(list);
-   
-  this.renderList(list);
+    document.querySelector(".title").textContent += ` - ${this.category}`;
   }
 
   renderList(list) {
-  // const htmlStrings = list.map(productCardTemplate);
-  // this.parentListElement.insertAdjacentHTML('afterbegin', htmlStrings.join(''));
-  renderListWithTemplate(productCardTemplate, this.parentListElement, list);
+    // const htmlStrings = list.map(productCardTemplate);
+    // this.listElement.insertAdjacentHTML("afterbegin", htmlStrings.join(""));
+
+    // apply use new utility function instead of the commented code above
+    renderListWithTemplate(productCardTemplate, this.listElement, list);
+
+  }
+
 }
-
- 
-
-  
-   
-}
-
-  
