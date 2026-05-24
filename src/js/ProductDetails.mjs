@@ -46,6 +46,8 @@ export default class ProductDetails {
  // Check if product already in cart
     const existingItem = cartItems.find(item => item.Id === this.product.Id);
 
+    
+
     if (existingItem) {
         // If it exists, bump quantity
         existingItem.quantity += 1;
@@ -58,11 +60,6 @@ export default class ProductDetails {
         // Save the updated cart array back to localStorage under the key "so-cart"
         setLocalStorage("so-cart", cartItems);
 
- 
-      if (existingItem.FinalPrice < existingItem.SuggestedRetailPrice){
-        const discount = existingItem.SuggestedRetailPrice - existingItem.FinalPrice;
-           discountElement.textContent = `Discounted Price: $${discount.toFixed(2)}`;
-        }
            
 }
     
@@ -71,13 +68,30 @@ export default class ProductDetails {
     renderProductDetails(product) {
         // This method is responsible for putting product data into the HTML
         // It delegates the actual HTML manipulation to productDetailsTemplate
-        productDetailsTemplate(this.product);
+
+        // boolean to check if there's a discount by comparing suggested retail price and final price
+        const hasDiscount = product.SuggestedRetailPrice > product.FinalPrice; 
+
+        let discountFlag = '';
+        if (hasDiscount) {
+            const discountPercent = Math.round(
+            ((product.SuggestedRetailPrice - product.FinalPrice) / product.SuggestedRetailPrice) * 100
+            );
+            discountFlag = `Discount: <span class="discount-badge">-${discountPercent}% OFF</span>`;
+
+            console.log(discountFlag);
+
+            }
+
+            productDetailsTemplate(this.product, discountFlag);
+            
+
     }
 }
 
 // Standalone function to update the DOM with product information
 // Keeping it separate makes it easier to test and reuse
-function productDetailsTemplate(product) {
+function productDetailsTemplate(product, discountFlag) {
     // Set the brand name in the first <h2> tag on the page
     document.querySelector('h2').textContent = product.Brand.Name;
 
@@ -86,7 +100,7 @@ function productDetailsTemplate(product) {
 
     // Find the product image element, set its src and alt attributes
     const productImage = document.getElementById("productImage");
-    productImage.src = product.Image; // Set image URL
+    productImage.src = product.Images.PrimaryLarge; // Set image URL
     productImage.alt = product.NameWithoutBrand; // Set alt text for accessibility
 
     // Display the final price in the element with id "productPrice"
@@ -98,10 +112,32 @@ function productDetailsTemplate(product) {
     // Insert the product description HTML. Using innerHTML because DescriptionHtmlSimple contains HTML tags
     document.getElementById('productDesc').innerHTML = product.DescriptionHtmlSimple;
 
+    document.getElementById('discount').innerHTML = discountFlag;
+
     // Store the product ID on the "Add to Cart" button using a data attribute
     // This lets addProductToCart know which product was clicked if needed
     document.getElementById('addToCart').dataset.id = product.Id;
 }
+
+
+// ************* Alternative Display Product Details Method *******************
+// function productDetailsTemplate(product) {
+//   return `<section class="product-detail"> <h3>${product.Brand.Name}</h3>
+//     <h2 class="divider">${product.NameWithoutBrand}</h2>
+//     <img
+//       class="divider"
+//       src="${product.Image}"
+//       alt="${product.NameWithoutBrand}"
+//     />
+//     <p class="product-card__price">$${product.FinalPrice}</p>
+//     <p class="product__color">${product.Colors[0].ColorName}</p>
+//     <p class="product__description">
+//     ${product.DescriptionHtmlSimple}
+//     </p>
+//     <div class="product-detail__add">
+//       <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
+//     </div></section>`;
+// }
 
 
 

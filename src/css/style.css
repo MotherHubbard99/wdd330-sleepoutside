@@ -131,6 +131,14 @@ button {
   fill: gray;
 }
 
+/* src/index.html styles */
+.product-grid{
+  display: flex;
+  justify-content: space-evenly;
+  list-style-type: none; 
+
+}
+
 /* End cart icon styles */
 
 .mission {
