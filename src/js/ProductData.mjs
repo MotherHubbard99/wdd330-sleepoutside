@@ -1,3 +1,6 @@
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
+
 function convertToJson(res) {
   // Helper function to handle fetch responses         
   // 'res' is the Response object returned by fetch()
@@ -16,34 +19,30 @@ export default class ProductData {
   // This class handles loading product data for a specific category
   // Exported as default so you can import it with any name
 
-  constructor(category) {
-    // category: string like "tents", "backpacks", etc.
-    this.category = category;
+    constructor() {
+    // The constructor is now empty because category is passed directly into getData() instead!
+    }
 
-    // Build the path to the JSON file for this category
-    // Example: if category = "tents", path becomes "../json/tents.json"
-    this.path = `../json/${this.category}.json`; 
-  }
+    // We convert to aync/await and update to fetch from the live API endpoint
+    async getData(category) {
+      const response = await fetch(`${baseURL}products/search/${category}`);
+      const data = await convertToJson(response);
 
-  getData() {
-    // Fetch the JSON file for this category and return the parsed data
-    // Uses .then() chain instead of async/await
+      // The API will send data wrapped inside an object envelope, so we return data.Result
+      return data.Result
+    }
 
-    return fetch(this.path)           // Make a GET request to the JSON file
-      .then(convertToJson)            // Pass the response through convertToJson to parse it
-      .then((data) => data);          // Just return the data as-is. This line is redundant but harmless
-                                      // You could simplify to: return fetch(this.path).then(convertToJson)
-  }
+    async findProductById(id) {
+      // We now fix the query so that the live API will directly ask for a single product using its unique ID
+      const response = await fetch(`${baseURL}product/${id}`);
 
-  async findProductById(id) {
-    // Find a single product in the category by its ID
-    // Marked async because we need to await getData()
+      if (!response.ok) {
+        throw new Error(`API error: ${response.statusText}`);
+      }
 
-    const products = await this.getData();
-    // Wait for getData() to finish and give us the full array of products
+      const data = await response.json();
 
-    return products.find((item) => item.Id === id);
-    // Search the array and return the first item where item.Id matches the id passed in
-    // Returns undefined if no match is found
-  }
+      return data.Result;
+    }
+
 }
