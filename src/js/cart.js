@@ -1,6 +1,5 @@
 import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
 
-
 loadHeaderFooter();
 
 function renderCartContents() {
@@ -10,10 +9,7 @@ function renderCartContents() {
 }
 
 function cartItemTemplate(item) {
-  
-  const newItem = 
-  
-  `<li class="cart-card divider">
+  const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
       src="${item.Images.PrimaryMedium}"
@@ -43,7 +39,7 @@ document
   .addEventListener("click", (event) => {
     if (event.target.classList.contains("remove")) {
       const itemId = event.target.dataset.id;
-     
+
       removeFromCart(itemId);
     }
   });

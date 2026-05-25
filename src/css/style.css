@@ -132,11 +132,10 @@ button {
 }
 
 /* src/index.html styles */
-.product-grid{
+.product-grid {
   display: flex;
   justify-content: space-evenly;
-  list-style-type: none; 
-
+  list-style-type: none;
 }
 
 /* End cart icon styles */
