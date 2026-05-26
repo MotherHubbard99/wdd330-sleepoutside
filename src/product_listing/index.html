@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sleep Outside | Home</title>
+    <title>Sleep Outside | Product Listing</title>
     <link rel="stylesheet" href="../css/style.css" />
     <script src="../js/product-listing.js" type="module"></script>
   </head>
@@ -12,9 +12,20 @@
     <header class="divider" id="main-header"></header>
 
     <main class="divider">
-      <h2 class="title">Top Products:</h2>
+      <section class="products">
+        <h2 class="title">Top Products</h2>
 
-      <ul class="product-list"></ul>
+        <div class="sort-container">
+          <label for="sort-select">Sort By: </label>
+          <select id="sort-select">
+            <option value="">Select...</option>
+            <option value="name">Name (A-Z)</option>
+            <option value="price">Price (Low to High)</option>
+          </select>
+        </div>
+
+        <ul class="product-list"></ul>
+      </section>
     </main>
 
     <footer id="main-footer"></footer>

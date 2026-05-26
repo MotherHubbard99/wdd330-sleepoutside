@@ -6,26 +6,73 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Sleep Outside | Cart</title>
+    <title>Sleep Outside | Home</title>
+
+ 
+    <link rel="stylesheet" href="css/style.css" />
 
     <link rel="stylesheet" href="../css/style.css" />
 
-    <script src="../js/cart.js" type="module"></script>
+
   </head>
 
   <body>
     <header class="divider" id="main-header"></header>
 
     <main class="divider">
+ 
+      <section class="hero">
+        <img src="images/banner-sm.jpg" alt="Camping under the start" class="hero-img" />
+        <div class="hero__welcome">
+          <h1>Welcome to Sleep Outside</h1>
+          <p>Top-tier outdoor gear for your next big adventure.</p>
+        </div>
+      </section>
+
+      <section class="category-nav">
+        <h2>Shop by Category</h2>
+        <ul class="product-grid">
+          <li class="category-card">
+            <a href="product_listing/index.html?category=tents">
+              <img src="images/noun_Tent_125067.svg" alt="Tent category icon" />
+              <h3>Tents</h3>
+            </a>
+          </li>
+
+          <li class="category-card">
+            <a href="product_listing/index.html?category=backpacks">
+              <img src="images/noun_Backpack_125068.svg" alt="Backpacks category icon" />
+              <h3>Backpacks</h3>
+            </a>
+          </li>
+
+          <li class="category-card">
+            <a href="product_listing/index.html?category=sleeping-bags">
+              <img src="images/noun_Sleeping Bag_125069.svg" alt="Sleeping bags category Icon" />
+              <h3>Sleeping Bags</h3>
+            </a>
+          </li>
+
+          <li class="category-card">
+            <a href="product_listing/index.html?category=hammocks_125070.svg">
+              <img src="images/noun_Hammock_125070.svg" alt="Hammocks category icon" />
+              <h3>Hammocks</h3>
+            </a>
+          </li>
+        </ul>
+
       <section class="products">
         <h2>My Cart</h2>
         <ul class="cart-product-list"></ul>
         <div class="cart-total-container hide">
           <p class="cart-total-text">Total:</p>
         </div>
+
       </section>
     </main>
 
     <footer id="main-footer"></footer>
+
+    <script type="module" src="js/main.js"></script>
   </body>
 </html>
