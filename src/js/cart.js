@@ -5,6 +5,7 @@ loadHeaderFooter();
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
+  calcSubTotal(cartItems);
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".cart-product-list").innerHTML = htmlItems.join("");
 }
@@ -26,6 +27,7 @@ function cartItemTemplate(item) {
   <p class="cart-card__color">${item.Colors[0].ColorName}</p>
   <p class="cart-card__quantity">qty: ${item.quantity}</p>
   <p class="cart-card__price">$${item.FinalPrice}</p>
+
 
 
   <button class="remove" data-id="${item.Id}">Remove</button>
@@ -56,4 +58,18 @@ function removeFromCart(itemId) {
   const updatedCartItems = cartItems.filter((item) => item.Id !== itemId);
   localStorage.setItem("so-cart", JSON.stringify(updatedCartItems));
   renderCartContents();
+}
+
+
+
+function calcSubTotal(cartItems) {
+  let subTotal = 0;
+
+  cartItems.forEach((item) => {
+    subTotal += item.FinalPrice * item.quantity;
+  });
+
+  const subTotalDOM = document.querySelector("#subtotal");
+
+  subTotalDOM.innerHTML = `$${subTotal}`;
 }
