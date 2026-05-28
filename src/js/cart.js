@@ -4,7 +4,6 @@ loadHeaderFooter();
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
-  calcSubTotal(cartItems);
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".cart-product-list").innerHTML = htmlItems.join("");
 
@@ -15,7 +14,7 @@ function cartItemTemplate(item) {
   const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
-      src="${item.Image}"
+      src="${item.Images.PrimaryLarge}"
       alt="${item.Name}"
     />
   </a>
@@ -24,7 +23,8 @@ function cartItemTemplate(item) {
   </a>
   <p class="cart-card__color">${item.Colors[0].ColorName}</p>
   <p class="cart-card__quantity">qty: ${item.quantity}</p>
-  <p class="cart-card__price">$${item.FinalPrice}</p>
+  <p class="cart-card__price">Final Price: $${item.FinalPrice}</p>
+  <p class="cart-card__subtotal">Individual Subtotal: $${(item.FinalPrice * item.quantity).toFixed(2)}</p>
 
 
 
@@ -47,6 +47,7 @@ function calculateTotal() {
   if (cartItems.length === 0) {
     totalContainer.classList.add("hide");
     total = 0;
+    totalText.textContent = `Total: $${total.toFixed(2)}`;
     return;
   } else {
     totalContainer.classList.remove("hide");
@@ -81,14 +82,3 @@ function removeFromCart(itemId) {
 
 
 
-function calcSubTotal(cartItems) {
-  let subTotal = 0;
-
-  cartItems.forEach((item) => {
-    subTotal += item.FinalPrice * item.quantity;
-  });
-
-  const subTotalDOM = document.querySelector("#subtotal");
-
-  subTotalDOM.innerHTML = `$${subTotal}`;
-}

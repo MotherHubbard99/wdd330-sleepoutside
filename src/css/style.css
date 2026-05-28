@@ -211,6 +211,10 @@ button {
 }
 
 /* Start cart list card styles */
+.hide {
+  display: none;
+}
+
 .cart-card {
   display: grid;
   grid-template-columns: 25% auto 15%;

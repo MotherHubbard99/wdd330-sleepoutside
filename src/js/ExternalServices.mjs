@@ -26,8 +26,6 @@ export default class ExternalServices {
    
     return data.Result;
   }
-<<<<<<< HEAD
-=======
 
    async checkout(payload) {
     const options = {
@@ -39,5 +37,4 @@ export default class ExternalServices {
     };
     return await fetch(`${baseURL}checkout/`, options).then(convertToJson);
   }
->>>>>>> d12c19e2e9caa39f897f82f1ef8987d60c5f2651
 }
