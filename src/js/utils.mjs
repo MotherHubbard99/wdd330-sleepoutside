@@ -32,8 +32,6 @@ export function getParam(param) {
   return product;
 }
 
-
-
 export function renderListWithTemplate(template, parentListElement, list, position = "afterbegin", clear = true) {
     
  
