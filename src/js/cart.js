@@ -14,7 +14,7 @@ function cartItemTemplate(item) {
   const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
-      src="${item.Images.PrimaryMedium}"
+      src="${item.Image}"
       alt="${item.Name}"
     />
   </a>
@@ -36,7 +36,7 @@ function cartItemTemplate(item) {
 function calculateTotal() {
   const cartItems = getLocalStorage("so-cart") || [];
 
-  //define here 
+  //define here
   const totalContainer = document.querySelector(".cart-total-container");
   const totalText = document.querySelector(".cart-total-text");
   //initialize total
@@ -46,20 +46,18 @@ function calculateTotal() {
     totalContainer.classList.add("hide");
     total = 0;
     return;
-  }
-  else {
+  } else {
     totalContainer.classList.remove("hide");
-  
+
     cartItems.forEach((item) => {
       total += item.FinalPrice * item.quantity;
-    })
-  };
+    });
+  }
 
   totalText.textContent = `Total: $${total.toFixed(2)}`;
 }
 
 renderCartContents();
-  
 
 //On click of the remove button we will need to remove the item from the cart and update local storage. We will also need to re-render the cart contents to reflect the change.
 document
