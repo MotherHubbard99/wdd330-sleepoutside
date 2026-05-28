@@ -43,19 +43,17 @@ export default class ProductDetails {
         const cartItems = getLocalStorage("so-cart") || [];
 
 
- // Check if product already in cart
-    const existingItem = cartItems.find(item => item.Id === this.product.Id);
+        // Check if product already in cart
+        const existingItem = cartItems.find(item => item.Id === this.product.Id);
 
-    
-
-    if (existingItem) {
-        // If it exists, bump quantity
-        existingItem.quantity += 1;
-    } else {
-        // If it's new, set quantity to 1 and add it
-        this.product.quantity = 1;
-        cartItems.push(this.product);
-    }
+        if (existingItem) {
+            // If it exists, bump quantity
+            existingItem.quantity = (existingItem.quantity || 0) + 1;
+        } else {
+            // If it's new, set quantity to 1 and add it
+            this.product.quantity = 1;
+            cartItems.push(this.product);
+        }
 
         // Save the updated cart array back to localStorage under the key "so-cart"
         setLocalStorage("so-cart", cartItems);
@@ -113,6 +111,7 @@ function productDetailsTemplate(product, discountFlag) {
     document.getElementById('productDesc').innerHTML = product.DescriptionHtmlSimple;
 
     document.getElementById('discount').innerHTML = discountFlag;
+
 
     // Store the product ID on the "Add to Cart" button using a data attribute
     // This lets addProductToCart know which product was clicked if needed
