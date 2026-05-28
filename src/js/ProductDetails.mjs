@@ -58,6 +58,10 @@ export default class ProductDetails {
         // Save the updated cart array back to localStorage under the key "so-cart"
         setLocalStorage("so-cart", cartItems);
 
+          
+  // Navigate to another page
+  window.location.href = "/cart/index.html";
+
            
 }
     
