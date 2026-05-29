@@ -5,14 +5,13 @@ const baseURL = import.meta.env.VITE_SERVER_URL;
 // Helper function to handle fetch responses
 function convertToJson(res) {
   if (res.ok) {
-    // If status is 200-299, parse the response body as JSON and return it
     return res.json();
   } else {
-    // If status is 400, 404, 500 etc, throw an error so .catch() or try/catch can handle it
-    throw new Error("Bad Response");
+    return res.json().then(err => {
+      throw new Error(err.message || err.error || `Bad Response: ${res.status}`);
+    });
   }
 }
-
 // Class that handles all API calls to the backend
 export default class ExternalServices {
   constructor() {
@@ -57,4 +56,5 @@ export default class ExternalServices {
     // .then(convertToJson) means: once fetch resolves, run the response through convertToJson
     return await fetch(`${baseURL}checkout/`, options).then(convertToJson);
   }
+  
 }
