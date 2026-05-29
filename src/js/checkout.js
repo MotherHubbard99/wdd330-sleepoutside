@@ -3,7 +3,9 @@ import CheckoutProcess from "./CheckoutProcess.mjs"; // remove {} if it's defaul
 console.log("checkout page is working");
 loadHeaderFooter();
 
-const order = new CheckoutProcess("so-cart", ".checkout-summary");
+
+
+const order = new CheckoutProcess();
 order.init();
 
 // Recalculate when zip loses focus
@@ -13,8 +15,13 @@ document.querySelector("#zip").addEventListener("blur", () => {
 
 // Submit the form
 document.querySelector("#checkoutSubmit").addEventListener("click", (e) => {
-  e.preventDefault();
+  const form = document.querySelector(".checkout-form");
   
-  const form = document.querySelector("#checkout-form"); // get the form element
-  order.checkout(form); // pass it in
+  if (!form.checkValidity()) {
+    form.reportValidity(); // shows the red outline + error message
+    return; // stop here if invalid
+  }
+
+  e.preventDefault(); // only prevent default if form is valid
+  order.checkout(form);
 });
