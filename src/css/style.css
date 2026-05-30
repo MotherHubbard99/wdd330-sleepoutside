@@ -261,7 +261,6 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
-
 .categories {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -307,4 +306,24 @@ footer {
   margin: 0;
   font-size: var(--small-font);
   color: var(--secondary-color);
+}
+
+
+.alerts {
+  padding: 1rem 1rem 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.alert-banner {
+  color: white;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.alert-banner p {
+  padding: 0;
+  margin: 0;
+  text-align: center;
 }
