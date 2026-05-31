@@ -14,3 +14,6 @@ const listing = new ProductList(category, dataSource, element);
 //call the init method to render the product list
 
 listing.init();
+
+
+
