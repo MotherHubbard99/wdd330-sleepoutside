@@ -12,30 +12,29 @@ function renderCartContents() {
 }
 
 function cartItemTemplate(item) {
+  const imgUrl = item.Images?.PrimaryLarge ?? '/images/placeholder.jpg';
+  const colorName = item.Colors?.[0]?.ColorName ?? '';
+  
   const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
-      src="${item.Images.PrimaryLarge}"
+      src="${imgUrl}"
       alt="${item.Name}"
     />
   </a>
   <a href="#">
     <h2 class="card__name">${item.Name}</h2>
   </a>
-  <p class="cart-card__color">${item.Colors[0].ColorName}</p>
+  <p class="cart-card__color">${colorName}</p>
   <p class="cart-card__quantity">qty: ${item.quantity}</p>
   <p class="cart-card__price">Final Price: $${item.FinalPrice}</p>
   <p class="cart-card__subtotal">Individual Subtotal: $${(item.FinalPrice * item.quantity).toFixed(2)}</p>
 
-
-
   <button class="remove" data-id="${item.Id}">Remove</button>
-
-</li>`;
+  </li>`;
 
   return newItem;
 }
-
 function calculateTotal() {
   const cartItems = getLocalStorage("so-cart") || [];
 
