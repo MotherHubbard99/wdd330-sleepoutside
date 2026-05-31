@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, alertMessage } from "./utils.mjs";
 // Import helper functions for reading and writing to browser localStorage
 // getLocalStorage: retrieves data from localStorage and parses JSON
 // setLocalStorage: stringifies data and saves it to localStorage
@@ -44,8 +44,7 @@ export default class ProductDetails {
 
 
         // Check if product already in cart
-        const existingItem = cartItems.find(item => item.Id === this.product.Id);
-
+        const existingItem = cartItems.find(item => item.Id === this.product.Id)
         if (existingItem) {
             // If it exists, bump quantity
             existingItem.quantity = (existingItem.quantity || 0) + 1;
@@ -54,13 +53,14 @@ export default class ProductDetails {
             this.product.quantity = 1;
             cartItems.push(this.product);
         }
+        alertMessage("Product added to cart!");
+
 
         // Save the updated cart array back to localStorage under the key "so-cart"
         setLocalStorage("so-cart", cartItems);
 
           
-  // Navigate to another page
-  window.location.href = "/cart/index.html";
+  
 
            
 }

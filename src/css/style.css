@@ -110,6 +110,10 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  background-color: var(--tertiary-color);
+}
+
 .divider {
   border-bottom: 2px solid var(--primary-color);
 }
@@ -174,8 +178,39 @@ button {
   text-decoration: none;
   color: var(--dark-grey);
 }
+/* alert messages styles */
+.alert{
+  display: flex;
+  border: #303030 solid 2px;
+  justify-content: space-evenly
+  ;
+}
+.alert span{
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 1em 1em;
+  border-radius: 50%;
+  font-size: var(--small-font);
+  cursor: pointer;
+}
 
 /* Styles for product lists */
+#myDialog{
+max-width: 500px;
+  width: 50%;  
+}
+.quickView {
+  display: block;
+  margin: 0.5em auto;
+  padding: 0.5em 1em;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  font-size: var(--large-font);
+}
+
 .product-card {
   flex: 1 1 45%;
   margin: 0.25em;

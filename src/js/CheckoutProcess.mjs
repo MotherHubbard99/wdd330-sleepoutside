@@ -1,4 +1,4 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, alertMessage, removeAllAlerts, setLocalStorage } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 
 const services = new ExternalServices();
@@ -47,8 +47,12 @@ export default class CheckoutProcess {
     itemNumElement.innerText = this.list.length;
     // calculate the total of all the items in the cart
     const amounts = this.list.map((item) => item.FinalPrice);
-    this.itemTotal = amounts.reduce((sum, item) => sum + item);
-    summaryElement.innerText = `$${this.itemTotal}`;;
+    this.itemTotal = this.list.reduce((sum, item) => {
+      const price = Number(item.FinalPrice) || 0;
+      const qty = Number(item.quantity) || 1;
+      return sum + price * qty;
+    }, 0);
+    summaryElement.innerText = `$${this.itemTotal}`;
   }
 
   calculateOrderTotal() {
@@ -86,10 +90,17 @@ export default class CheckoutProcess {
     console.log(order);
 
     try {
-      const response = await services.checkout(order);
-      console.log(response);
+      const res = await services.checkout(order);
+      console.log(res);
+      setLocalStorage("so-cart", []);
+      location.assign("/checkout/success.html");
     } catch (err) {
-      console.log(err);
+      // get rid of any preexisting alerts.
+      // removeAllAlerts();
+      // for (let message in err.message) {
+      //   alertMessage(`ERROR: ${err.message[message]}`);
+      // }
+      alertMessage('Oops! Something went wrong with your order. Please check and try again');
     }
   }
 }
