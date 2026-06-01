@@ -110,6 +110,10 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  background-color: var(--tertiary-color);
+}
+
 .divider {
   border-bottom: 2px solid var(--primary-color);
 }
@@ -174,8 +178,38 @@ button {
   text-decoration: none;
   color: var(--dark-grey);
 }
+/* alert messages styles */
+.alert {
+  display: flex;
+  border: #303030 solid 2px;
+  justify-content: space-evenly;
+}
+.alert span {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 1em 1em;
+  border-radius: 50%;
+  font-size: var(--small-font);
+  cursor: pointer;
+}
 
 /* Styles for product lists */
+#myDialog {
+  max-width: 500px;
+  width: 50%;
+}
+.quickView {
+  display: block;
+  margin: 0.5em auto;
+  padding: 0.5em 1em;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  font-size: var(--large-font);
+}
+
 .product-card {
   flex: 1 1 45%;
   margin: 0.25em;
@@ -210,22 +244,11 @@ button {
   width: 100%;
 }
 
-.sort-container {
-  margin: 1 rem 0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-}
-
-.sort-container select {
-  padding: 0.4rem;
-  border-radius: 4px;
-  border: 1px solid black;
-  cursor: pointer;
-}
-
 /* Start cart list card styles */
+.hide {
+  display: none;
+}
+
 .cart-card {
   display: grid;
   grid-template-columns: 25% auto 15%;
@@ -261,6 +284,31 @@ button {
 .cart-card__price {
   grid-row: 2;
   grid-column: 3;
+}
+/* checkout page styles */
+
+fieldset {
+  border: 1px solid var(--light-grey);
+  padding: 1em;
+  margin-top: 2em;
+}
+.order__summary {
+  line-height: 1.6;
+}
+
+.checkout__name label,
+.checkout__payment label,
+.checkout__address label {
+  display: block;
+  padding: 10px;
+}
+.checkout__name input,
+.checkout__payment input,
+.checkout__address input {
+  margin-bottom: 1.5em;
+  width: 60%;
+  height: 44px;
+  padding: 10px;
 }
 
 /* Custom Orange Error Alerts Banner Styling */

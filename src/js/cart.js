@@ -11,32 +11,33 @@ function renderCartContents() {
 }
 
 function cartItemTemplate(item) {
+  const imgUrl = item.Images?.PrimaryLarge ?? "/images/placeholder.jpg";
+  const colorName = item.Colors?.[0]?.ColorName ?? "";
+
   const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
-      src="${item.Images.PrimaryMedium}"
+      src="${imgUrl}"
       alt="${item.Name}"
     />
   </a>
   <a href="#">
     <h2 class="card__name">${item.Name}</h2>
   </a>
-  <p class="cart-card__color">${item.Colors[0].ColorName}</p>
+  <p class="cart-card__color">${colorName}</p>
   <p class="cart-card__quantity">qty: ${item.quantity}</p>
-  <p class="cart-card__price">$${item.FinalPrice}</p>
-
+  <p class="cart-card__price">Final Price: $${item.FinalPrice}</p>
+  <p class="cart-card__subtotal">Individual Subtotal: $${(item.FinalPrice * item.quantity).toFixed(2)}</p>
 
   <button class="remove" data-id="${item.Id}">Remove</button>
-
-</li>`;
+  </li>`;
 
   return newItem;
 }
-
 function calculateTotal() {
   const cartItems = getLocalStorage("so-cart") || [];
 
-  //define here 
+  //define here
   const totalContainer = document.querySelector(".cart-total-container");
   const totalText = document.querySelector(".cart-total-text");
   //initialize total
@@ -45,21 +46,20 @@ function calculateTotal() {
   if (cartItems.length === 0) {
     totalContainer.classList.add("hide");
     total = 0;
+    totalText.textContent = `Total: $${total.toFixed(2)}`;
     return;
-  }
-  else {
+  } else {
     totalContainer.classList.remove("hide");
-  
+
     cartItems.forEach((item) => {
       total += item.FinalPrice * item.quantity;
-    })
-  };
+    });
+  }
 
   totalText.textContent = `Total: $${total.toFixed(2)}`;
 }
 
 renderCartContents();
-  
 
 //On click of the remove button we will need to remove the item from the cart and update local storage. We will also need to re-render the cart contents to reflect the change.
 document
