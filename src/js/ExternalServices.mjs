@@ -9,12 +9,9 @@ function convertToJson(res) {
   } else {
     return res.json().then(err => {
       //throw new Error(err.message || err.error || `Bad Response: ${res.status}`);
-      throw {
-        status: res.status,
-        message: err.message,
-        error: err.error,
-        errors: err.errors
-      };
+      console.log("🔥 RAW BACKEND ERROR JSON:", err); 
+
+      throw err;
     });
   }
 }

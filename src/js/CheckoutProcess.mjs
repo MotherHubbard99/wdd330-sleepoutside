@@ -112,9 +112,9 @@ export default class CheckoutProcess {
         }
 
         // Case 2: backend sends { message: { field: "error" } }
-        if (typeof err.message === "object") {
-          for (let key in err.message) {
-            alertMessage(`ERROR: ${err.message[key]}`);
+        if (typeof err === "object") {
+          for (let key in err) {
+            alertMessage(`ERROR: ${err[key]}`);
           }
           return;
         }
