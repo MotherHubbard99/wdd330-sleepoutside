@@ -179,13 +179,12 @@ button:hover {
   color: var(--dark-grey);
 }
 /* alert messages styles */
-.alert{
+.alert {
   display: flex;
   border: #303030 solid 2px;
-  justify-content: space-evenly
-  ;
+  justify-content: space-evenly;
 }
-.alert span{
+.alert span {
   background-color: var(--secondary-color);
   color: white;
   padding: 1em 1em;
@@ -195,9 +194,9 @@ button:hover {
 }
 
 /* Styles for product lists */
-#myDialog{
-max-width: 500px;
-  width: 50%;  
+#myDialog {
+  max-width: 500px;
+  width: 50%;
 }
 .quickView {
   display: block;
@@ -291,24 +290,26 @@ max-width: 500px;
 fieldset {
   border: 1px solid var(--light-grey);
   padding: 1em;
- margin-top: 2em;
+  margin-top: 2em;
 }
-.order__summary{
+.order__summary {
   line-height: 1.6;
 }
 
-.checkout__name label, .checkout__payment label, .checkout__address label{
+.checkout__name label,
+.checkout__payment label,
+.checkout__address label {
   display: block;
   padding: 10px;
 }
-.checkout__name input, .checkout__payment input, .checkout__address input{
+.checkout__name input,
+.checkout__payment input,
+.checkout__address input {
   margin-bottom: 1.5em;
   width: 60%;
   height: 44px;
   padding: 10px;
 }
-
-
 
 @media screen and (min-width: 500px) {
   body {

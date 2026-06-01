@@ -3,7 +3,6 @@ import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
 loadHeaderFooter();
 
 function renderCartContents() {
-  
   const cartItems = getLocalStorage("so-cart");
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".cart-product-list").innerHTML = htmlItems.join("");
@@ -12,9 +11,9 @@ function renderCartContents() {
 }
 
 function cartItemTemplate(item) {
-  const imgUrl = item.Images?.PrimaryLarge ?? '/images/placeholder.jpg';
-  const colorName = item.Colors?.[0]?.ColorName ?? '';
-  
+  const imgUrl = item.Images?.PrimaryLarge ?? "/images/placeholder.jpg";
+  const colorName = item.Colors?.[0]?.ColorName ?? "";
+
   const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
@@ -79,6 +78,3 @@ function removeFromCart(itemId) {
   localStorage.setItem("so-cart", JSON.stringify(updatedCartItems));
   renderCartContents();
 }
-
-
-

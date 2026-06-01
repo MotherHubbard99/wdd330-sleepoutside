@@ -8,7 +8,13 @@ function convertToJson(res) {
     return res.json();
   } else {
     return res.json().then(err => {
-      throw new Error(err.message || err.error || `Bad Response: ${res.status}`);
+      //throw new Error(err.message || err.error || `Bad Response: ${res.status}`);
+      throw {
+        status: res.status,
+        message: err.message,
+        error: err.error,
+        errors: err.errors
+      };
     });
   }
 }
