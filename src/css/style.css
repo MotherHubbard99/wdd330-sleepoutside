@@ -311,6 +311,33 @@ fieldset {
   padding: 10px;
 }
 
+/* Custom Orange Error Alerts Banner Styling */
+.alert {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f4a261;
+  color: #333;
+  padding: 1rem 1.5rem;
+  margin: 0.5rem auto;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 4px;
+  border: 1px solid #e76f51;
+  font-family: sans-serif;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.alert-close {
+  font-size: 1.1rem;
+  padding: 0 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.alert-close:hover {
+  color: #fff;
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
@@ -331,3 +358,177 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+/* Checkout Form & Fieldsset Layout */
+.checkout-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+
+}
+
+.checkout-from fieldset {
+  border: 1px solid var(--light-grey);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  background-color: #fdfdfd;
+}
+
+.checkout-from legend {
+  font-family: var(--font-headline);
+  font-size: var(--large-font);
+  color: var(--tertiary-color);
+  padding: 0 0.5rem;
+  font-weight: bold;
+}
+
+/* Form Item Stacking & Spacing */
+.form-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+.form-item input {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-item input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 4px rgba(240, 168, 104, 0.4);
+}
+
+/* Two-Column Rows (Sate/Zip and Expiration/CVV) */
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.form-row .form-item {
+  flex: 1;
+}
+
+/* Order Summary Box Layout */
+.order-summary {
+  background-color: #f9f9f9;
+  border: 1px solid var(--light-grey);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+.order-summary h3 {
+  font-family: var(--font-headline);
+  font-size: var(--large-font);
+  border-bottom: 2px solid var(--light-grey);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.order-summary ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.order-summary li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+}
+
+/* Accentuate the final computation total row */
+.order-summary li.order-total {
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-top: 2px dashed var(--light-grey);
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  color: var(--tertiary-color);
+}
+
+/* Form Action Button Positioning */
+.btn-submit {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit:hover {
+  background-color: var(--teriary-color);
+}
+
+/* Modal Background Overlay */
+.modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6); /* This dims the background when the modal is active */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease;
+
+}
+
+/* Modal Content Box */
+.modal-content {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+/* Close Button for Modal */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #303030;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #8a470c;
+}
+
+/* Register CTA Button */
+.btn-register {
+  display: inline-block;
+  background-color: #525b0f;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  margin-top: 1rem;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.btn-register:hover {
+  background-color: #f0a868; /* This is the primary color, but it works well as a hover accent here */
+  color: #303030;
+}
+
+/* Utility class to hide the Modal */
+.hidden {
+  display: none !important;
+}
+

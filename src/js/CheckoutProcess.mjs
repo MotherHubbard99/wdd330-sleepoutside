@@ -1,10 +1,10 @@
-import { getLocalStorage, alertMessage, removeAllAlerts, setLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, alertMessage } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 
 const services = new ExternalServices();
 
+// Convert a standard form element into a clean key-value object pair
 function formDataToJSON(formElement) {
-  // convert the form data to a JSON object
   const formData = new FormData(formElement);
   const convertedJSON = {};
   formData.forEach((value, key) => {
@@ -13,19 +13,16 @@ function formDataToJSON(formElement) {
   return convertedJSON;
 }
 
+// Packages the raw local storage list into the exact order-item structure expected by the server API
 function packageItems(items) {
-  const simplifiedItems = items.map((item) => {
-    console.log(item);
-    return {
-      id: item.Id,
-      price: item.FinalPrice,
-      name: item.Name,
-      quantity: 1,
-    };
-  });
-  return simplifiedItems;
+  return items.map((item) => ({
+    id: item.Id,
+    name: item.Name,
+    price: item.FinalPrice,
+    quantity: item.quantity || 1,
+  }));
 }
-// there is nothing to pass to the constructor, so we can just call it without arguments. evrything it needs is either calculated as (this.variable) or pulled from local storage that was inported at the top of the file.
+
 export default class CheckoutProcess {
   constructor() {
     this.list = [];
@@ -35,101 +32,114 @@ export default class CheckoutProcess {
     this.orderTotal = 0;
   }
 
+  // Reads data from LocalStorage and triggers calculation
   init() {
-    this.list = getLocalStorage("so-cart");
+    this.list = getLocalStorage("so-cart") || [];
     this.calculateItemSummary();
   }
 
+  // Method to calculate and display the total amount of the items in the cart
   calculateItemSummary() {
-    // calculate and display the total amount of the items in the cart, and the number of items.
     const summaryElement = document.querySelector("#cartTotal");
     const itemNumElement = document.querySelector("#num-items");
-    itemNumElement.innerText = this.list.length;
-    // calculate the total of all the items in the cart
-    const amounts = this.list.map((item) => item.FinalPrice);
+    
+    if (itemNumElement) {
+      itemNumElement.innerText = this.list.length;
+    }
+
+    // Sum up (Price * Quantity) for all items in the array
     this.itemTotal = this.list.reduce((sum, item) => {
       const price = Number(item.FinalPrice) || 0;
       const qty = Number(item.quantity) || 1;
       return sum + price * qty;
     }, 0);
-    summaryElement.innerText = `$${this.itemTotal}`;
+
+    if (summaryElement) {
+      summaryElement.innerText = `$${this.itemTotal.toFixed(2)}`;
+    }
   }
 
+  // Method to calculate tax, shipping, and the total (Using clean camelCase capitalization)
   calculateOrderTotal() {
-    // calculate the shipping and tax amounts. Then use them to along with the cart total to figure out the order total
-    this.tax = (this.itemTotal * .06);
-    this.shipping = 10 + (this.list.length - 1) * 2;
-    this.orderTotal = (
-      parseFloat(this.itemTotal) +
-      parseFloat(this.tax) +
-      parseFloat(this.shipping)
-    )
-    // display the totals.
+    // Calculate Tax: 6% sales tax on the subtotal amount
+    this.tax = this.itemTotal * 0.06;
+
+    // Calculate Shipping: $10 for the first item + $2 for each extra item
+    const totalItemCount = this.list.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    if (totalItemCount > 0) {
+      this.shipping = 10 + (totalItemCount - 1) * 2;
+    } else {
+      this.shipping = 0;
+    }
+
+    // Find the final combined order total
+    this.orderTotal = this.itemTotal + this.shipping + this.tax;
+
+    // Display values to the page
     this.displayOrderTotals();
   }
 
+  // Helper method to write numbers cleanly to the summary block UI elements
   displayOrderTotals() {
-    // once the totals are all calculated display them in the order summary page
-    const tax = document.querySelector("#tax");
-    const shipping = document.querySelector("#shipping");
-    const orderTotal = document.querySelector("#orderTotal");
+    const taxDisplay = document.querySelector("#tax");
+    const shippingDisplay = document.querySelector("#shipping");
+    const orderTotalDisplay = document.querySelector("#orderTotal");
 
-    tax.innerText = `$${this.tax.toFixed(2)}`;
-    shipping.innerText = `$${this.shipping.toFixed(2)}`;
-    orderTotal.innerText = `$${this.orderTotal.toFixed(2)}`;
+    if (taxDisplay) taxDisplay.innerText = `$${this.tax.toFixed(2)}`;
+    if (shippingDisplay) shippingDisplay.innerText = `$${this.shipping.toFixed(2)}`;
+    if (orderTotalDisplay) orderTotalDisplay.innerText = `$${this.orderTotal.toFixed(2)}`;
   }
 
+  // Handles submitting form payload data and catching custom validation error blocks
   async checkout(formElement) {
-    const order = formDataToJSON(formElement);
+    const orderPayload = formDataToJSON(formElement);
 
-    order.orderDate = new Date().toISOString();
-    order.orderTotal = Number(this.orderTotal.toFixed(2));
-    order.tax = Number(this.tax.toFixed(2));
-    order.shipping = Number(this.shipping.toFixed(2));
+    // Supplement object with extra metadata properties required by the server API
+    orderPayload.orderDate = new Date().toISOString();
+    orderPayload.orderTotal = Number(this.orderTotal.toFixed(2));
+    orderPayload.tax = Number(this.tax.toFixed(2));
+    orderPayload.shipping = Number(this.shipping.toFixed(2));
+    orderPayload.items = packageItems(this.list);
 
-    order.items = packageItems(this.list);
-    console.log(order);
+    console.log("Submitting Payload to Server:", orderPayload);
 
-   try {
-      const res = await services.checkout(order);
-      console.log(res);
+    // Clear out old existing alert banners from a previous submission attempt
+    const existingAlerts = document.querySelectorAll(".alert");
+    existingAlerts.forEach(alert => alert.remove());
+
+    try {
+      const res = await services.checkout(orderPayload);
+      console.log("Order placed successfully:", res);
+      
+      // Clear cart from local storage on successful submission
       setLocalStorage("so-cart", []);
+      
+      // Redirect user to success splash confirmation page
       location.assign("/checkout/success.html");
     } catch (err) {
-      // get rid of any preexisting alerts.
-      // removeAllAlerts();
-      // for (let message in err.message) {
-      //   alertMessage(`ERROR: ${err.message[message]}`);
-      // }
-      //alertMessage('Oops! Something went wrong with your order. Please check and try again');
-        
-        console.error("Checkout error:", err);
+      console.error("Checkout error fallback block:", err);
 
-        // Case 1: backend sends { message: "something" }
-        if (typeof err.message === "string") {
-          alertMessage(`ERROR: ${err.message}`);
-          return;
+      // Handle custom error response parsing seamlessly
+      if (err.message && typeof err.message === "object") {
+        for (let key in err.message) {
+          alertMessage(`ERROR: ${key} - ${err.message[key]}`);
         }
+        return;
+      }
 
-        // Case 2: backend sends { message: { field: "error" } }
-        if (typeof err === "object") {
-          for (let key in err) {
-            alertMessage(`ERROR: ${err[key]}`);
-          }
-          return;
+      if (err.errors && typeof err.errors === "object") {
+        for (let key in err.errors) {
+          alertMessage(`ERROR: ${err.errors[key]}`);
         }
+        return;
+      }
 
-        // Case 3: backend sends { errors: { field: "error" } }
-        if (err.errors) {
-          for (let key in err.errors) {
-            alertMessage(`ERROR: ${err.errors[key]}`);
-          }
-          return;
-        }
+      if (typeof err.message === "string") {
+        alertMessage(`ERROR: ${err.message}`);
+        return;
+      }
 
-        // Fallback
-        alertMessage("Oops! Something went wrong with your order.");
-    
+      alertMessage("Oops! Something went wrong with your order. Please check your data and try again.");
     }
   }
 }
