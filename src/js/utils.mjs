@@ -62,14 +62,48 @@ export async function loadTemplate(path) {
 
 export async function loadHeaderFooter(){
 
-  const headerTemplate = await loadTemplate("../partials/header.html");
+  const headerTemplate = await loadTemplate("/partials/header.html");
 
-   const footerTemplate = await loadTemplate("../partials/footer.html");
+   const footerTemplate = await loadTemplate("/partials/footer.html");
 
 const headerElement = document.querySelector("#main-header");
 
 const footerElement = document.querySelector("#main-footer");
 
-renderWithTemplate(headerTemplate, headerElement);
-renderWithTemplate(footerTemplate, footerElement);
+// We will attempt to render if the layout placeholders exist on the current page
+if (headerElement) renderWithTemplate(headerTemplate, headerElement);
+if (footerElement) renderWithTemplate(footerTemplate, footerElement);
+}
+
+export function alertMessage(message, scroll = true) {
+  // We create the element to hold the alert
+  const alertContainer = document.createElement("div");
+
+  // We then add classes to style the alert banner
+  alertContainer.classList.add("alert");
+
+  // We will set the HTML contents with a custom close indicator text
+  alertContainer.innerHTML = `<span>${message}</span><span class="alert-close" style="cursor:pointer; font-weight:bold;">X</span>`;
+
+  // Add a listener to see if they clicked the close element
+  alertContainer.addEventListener("click", function(e) {
+    // Now if they clicked the 'X' button text specifically, remove the alert child
+    if (e.target.classList.contains("alert-close") || e.target.innerText === "X") {
+      const main = document.querySelector("main");
+      alertContainer.remove();
+    }
+  
+  });
+
+  // We then add the alert dynamically to the absolute top of the main layout element
+  const main = document.querySelector("main");
+  if (main) {
+    main.prepend(alertContainer);
+  }
+  
+
+  // Automatically scroll back up to he top of the viewport window if true
+  if (scroll) {
+    window.scrollTo({top:0, behavior: "smooth"});
+  }
 }
