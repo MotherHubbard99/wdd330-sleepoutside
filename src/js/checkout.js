@@ -3,8 +3,6 @@ import CheckoutProcess from "./CheckoutProcess.mjs"; // remove {} if it's defaul
 console.log("checkout page is working");
 loadHeaderFooter();
 
-
-
 const order = new CheckoutProcess();
 order.init();
 
@@ -16,7 +14,7 @@ document.querySelector("#zip").addEventListener("blur", () => {
 // Submit the form
 document.querySelector("#checkoutSubmit").addEventListener("click", (e) => {
   const form = document.querySelector(".checkout-form");
-  
+
   if (!form.checkValidity()) {
     form.reportValidity(); // shows the red outline + error message
     return; // stop here if invalid

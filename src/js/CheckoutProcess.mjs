@@ -83,13 +83,14 @@ export default class CheckoutProcess {
     const order = formDataToJSON(formElement);
 
     order.orderDate = new Date().toISOString();
-    order.orderTotal = this.orderTotal;
-    order.tax = this.tax;
-    order.shipping = this.shipping;
+    order.orderTotal = Number(this.orderTotal.toFixed(2));
+    order.tax = Number(this.tax.toFixed(2));
+    order.shipping = Number(this.shipping.toFixed(2));
+
     order.items = packageItems(this.list);
     console.log(order);
 
-    try {
+   try {
       const res = await services.checkout(order);
       console.log(res);
       setLocalStorage("so-cart", []);
@@ -100,7 +101,35 @@ export default class CheckoutProcess {
       // for (let message in err.message) {
       //   alertMessage(`ERROR: ${err.message[message]}`);
       // }
-      alertMessage('Oops! Something went wrong with your order. Please check and try again');
+      //alertMessage('Oops! Something went wrong with your order. Please check and try again');
+        
+        console.error("Checkout error:", err);
+
+        // Case 1: backend sends { message: "something" }
+        if (typeof err.message === "string") {
+          alertMessage(`ERROR: ${err.message}`);
+          return;
+        }
+
+        // Case 2: backend sends { message: { field: "error" } }
+        if (typeof err.message === "object") {
+          for (let key in err.message) {
+            alertMessage(`ERROR: ${err.message[key]}`);
+          }
+          return;
+        }
+
+        // Case 3: backend sends { errors: { field: "error" } }
+        if (err.errors) {
+          for (let key in err.errors) {
+            alertMessage(`ERROR: ${err.errors[key]}`);
+          }
+          return;
+        }
+
+        // Fallback
+        alertMessage("Oops! Something went wrong with your order.");
+    
     }
   }
 }
