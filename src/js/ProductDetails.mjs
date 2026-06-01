@@ -27,8 +27,8 @@ export default class ProductDetails {
   }
 
   renderProductDetails(product) {
-    document.querySelector("h2").textContent = product.Brand.Name;
-    document.querySelector("h3").textContent = product.NameWithoutBrand;
+    document.querySelector("h2").textContent = product.NameWithoutBrand;
+    document.querySelector("h3").textContent = product.Brand.Name;
 
     const productImage = document.getElementById("productImage");
     productImage.src = product.Images.PrimaryLarge;
@@ -37,7 +37,8 @@ export default class ProductDetails {
     document.getElementById("productPrice").textContent = `$${product.FinalPrice}`;
     document.getElementById("productColor").textContent =
       product.Colors?.[0]?.ColorName || "";
-    document.getElementById("productDesc").innerHTML = product.DescriptionHtmlSimple;
+    document.getElementById("productDesc").innerHTML =
+      product.DescriptionHtmlSimple;
 
     document.getElementById("addToCart").dataset.id = product.Id;
   }
