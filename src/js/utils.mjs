@@ -81,7 +81,7 @@ export function alertMessage(message, scroll = true) {
   alertContainer.classList.add("alert");
 
   // We will set the HTML contents with a custom close indicator text
-  alertContainer.innerHTML = `<span>${message}</span><span class="alert-close" style="cursor:pointer; font-weight:bold;">X</span>`;
+  alertContainer.innerHTML = `<span>${message}</span><span class="alert-close" style="cursor:pointer; font-weight:bold;">X</span>`; 
 
   // Add a listener to see if they clicked the close element
   alertContainer.addEventListener("click", function(e) {
@@ -105,7 +105,7 @@ export function alertMessage(message, scroll = true) {
     window.scrollTo({top:0, behavior: "smooth"});
   }
 }
- export function alertMessage(message, scroll = true, duration = 3000) {
+ /*export function alertMessage(message, scroll = true, duration = 3000) {
   const alert = document.createElement("div");
   alert.classList.add("alert");
   alert.innerHTML = `<p>${message}</p><span class="alert_close">X</span>`;
@@ -114,7 +114,7 @@ export function alertMessage(message, scroll = true) {
     if (e.target.classList.contains("alert_close") || e.target.tagName === "SPAN") {
       main.removeChild(this);
     }
-  });
+  }); 
   const main = document.querySelector("main");
   main.prepend(alert);
   // make sure they see the alert by scrolling to the top of the window
@@ -125,7 +125,7 @@ export function alertMessage(message, scroll = true) {
   // setTimeout(function () {
   //   main.removeChild(alert);
   // }, duration);
-}
+} */
 
 export function removeAllAlerts() {
   const alerts = document.querySelectorAll(".alert");
