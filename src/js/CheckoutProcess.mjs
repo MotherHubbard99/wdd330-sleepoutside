@@ -115,7 +115,7 @@ export default class CheckoutProcess {
       setLocalStorage("so-cart", []);
       
       // Redirect user to success splash confirmation page
-      location.assign("/checkout/success.html");
+      location.assign("/success.html");
     } catch (err) {
       console.error("Checkout error fallback block:", err);
 
