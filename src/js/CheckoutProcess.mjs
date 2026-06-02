@@ -120,19 +120,11 @@ export default class CheckoutProcess {
       console.error("Checkout error fallback block:", err);
 
       // Handle custom error response parsing seamlessly
-      if (err.message && typeof err.message === "object") {
-        for (let key in err.message) {
-          alertMessage(`ERROR: ${key} - ${err.message[key]}`);
-        }
+      if (typeof err === "object" && err !== null) {
+        const messages = Object.values(err).join("<br>");
+        alertMessage(messages);
         return;
-      }
-
-      if (err.errors && typeof err.errors === "object") {
-        for (let key in err.errors) {
-          alertMessage(`ERROR: ${err.errors[key]}`);
-        }
-        return;
-      }
+    }
 
       if (typeof err.message === "string") {
         alertMessage(`ERROR: ${err.message}`);
