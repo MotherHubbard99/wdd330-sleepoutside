@@ -11,9 +11,12 @@ export default class ProductDetails {
     this.product = await this.dataSource.findProductById(this.productId);
     this.renderProductDetails(this.product);
 
-    document
-      .getElementById("addToCart")
-      .addEventListener("click", () => this.addProductToCart(this.product));
+    const addToCartButton = document.getElementById("addToCart");
+    if (addToCartButton) {
+      addToCartButton.addEventListener("click", () =>
+        this.addProductToCart(this.product)
+      );
+    }
   }
 
   addProductToCart(product) {
@@ -24,6 +27,17 @@ export default class ProductDetails {
 
     cartItems.push(product);
     setLocalStorage("so-cart", cartItems);
+
+    this.animateCartIcon();
+  }
+
+  animateCartIcon() {
+    const cart = document.querySelector(".cart");
+    if (!cart) return;
+
+    cart.classList.remove("cart-animate");
+    void cart.offsetWidth;
+    cart.classList.add("cart-animate");
   }
 
   renderProductDetails(product) {
