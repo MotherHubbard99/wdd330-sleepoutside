@@ -92,7 +92,7 @@ export default class CheckoutProcess {
   try {
     await services.checkout(json);
   } catch (err) {
-    console.log("API failed, continuing locally", err);
+    console.log("API failed, lets continue locally", err);
   }
 
   setLocalStorage("so-cart", []);
