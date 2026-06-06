@@ -1,5 +1,19 @@
 import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
 
+export function updateCartCount() {
+  const cartItems = getLocalStorage("so-cart") || [];
+  const totalCount = cartItems.reduce(
+    (sum, item) => sum + (item.quantity || 1),
+    0,
+  );
+
+  const countElement = document.querySelector(".cart-count");
+  if (countElement) {
+    countElement.textContent = totalCount;
+    countElement.style.display = totalCount > 0 ? "block" : "none";
+  }
+}
+
 loadHeaderFooter();
 
 function renderCartContents() {

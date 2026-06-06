@@ -1,5 +1,8 @@
 import { loadHeaderFooter } from "./utils.mjs";
 import CheckoutProcess from "./CheckoutProcess.mjs";
+import { updateCartCount } from "./cart.js";
+
+updateCartCount();
 
 // This initializes layouts smoothly
 loadHeaderFooter();
