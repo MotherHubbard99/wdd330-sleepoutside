@@ -1,6 +1,9 @@
 import { getParam, loadHeaderFooter } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 import ProductDetails from "./ProductDetails.mjs";
+import { updateCartCount } from "./cart.js";
+
+updateCartCount();
 
 loadHeaderFooter();
 
