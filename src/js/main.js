@@ -1,6 +1,22 @@
 import { loadHeaderFooter } from "./utils.mjs";
 
-loadHeaderFooter();
+loadHeaderFooter().then(() => {
+  updateCartCount();
+});
+
+function updateCartCount() {
+  const cartItems = JSON.parse(localStorage.getItem("so-cart")) || [];
+  const totalCount = cartItems.reduce(
+    (sum, item) => sum + (item.quantity || 1),
+    0,
+  );
+
+  const countElement = document.querySelector(".cart-count");
+  if (countElement) {
+    countElement.textContent = totalCount;
+    countElement.style.display = totalCount > 0 ? "block" : "none";
+  }
+}
 
 export function initWelcomeModal() {
   const modal = document.getElementById("welcome-modal");

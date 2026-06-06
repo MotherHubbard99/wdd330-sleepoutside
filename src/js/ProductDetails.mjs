@@ -3,6 +3,23 @@ import { getLocalStorage, setLocalStorage, alertMessage } from "./utils.mjs";
 // getLocalStorage: retrieves data from localStorage and parses JSON
 // setLocalStorage: stringifies data and saves it to localStorage
 
+
+//update cart count in header (backpack icon) when product page is loaded
+function updateCartCount() {
+  const cartItems = getLocalStorage("so-cart") || [];
+  const totalCount = cartItems.reduce(
+    (sum, item) => sum + (item.quantity || 1),
+    0
+  );
+
+  const countElement = document.querySelector(".cart-count");
+  if (countElement) {
+    countElement.textContent = totalCount;
+    countElement.style.display = totalCount > 0 ? "block" : "none";
+  }
+}
+
+
 export default class ProductDetails {
   // Export this class as the default export so other files can import and use it
   // This class handles displaying product details and adding the product to cart
@@ -59,13 +76,13 @@ export default class ProductDetails {
         // Save the updated cart array back to localStorage under the key "so-cart"
         setLocalStorage("so-cart", cartItems);
 
-          
-  
+        updateCartCount(); // Update the cart count in the header after adding an item
 
-           
-}
+        
+    }
     
-
+    
+    
 
     renderProductDetails(product) {
         // This method is responsible for putting product data into the HTML

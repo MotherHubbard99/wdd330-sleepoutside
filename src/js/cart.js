@@ -4,12 +4,11 @@ loadHeaderFooter().then(() => {
   updateCartCount();
 });
 
-
 function updateCartCount() {
   const cartItems = getLocalStorage("so-cart") || [];
   const totalCount = cartItems.reduce(
     (sum, item) => sum + (item.quantity || 1),
-    0
+    0,
   );
 
   const countElement = document.querySelector(".cart-count");
@@ -18,7 +17,6 @@ function updateCartCount() {
     countElement.style.display = totalCount > 0 ? "block" : "none";
   }
 }
-
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
