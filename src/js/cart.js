@@ -1,10 +1,15 @@
 import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
 
-export function updateCartCount() {
+loadHeaderFooter().then(() => {
+  updateCartCount();
+});
+
+
+function updateCartCount() {
   const cartItems = getLocalStorage("so-cart") || [];
   const totalCount = cartItems.reduce(
     (sum, item) => sum + (item.quantity || 1),
-    0,
+    0
   );
 
   const countElement = document.querySelector(".cart-count");
@@ -14,7 +19,6 @@ export function updateCartCount() {
   }
 }
 
-loadHeaderFooter();
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
@@ -91,4 +95,5 @@ function removeFromCart(itemId) {
   const updatedCartItems = cartItems.filter((item) => item.Id !== itemId);
   localStorage.setItem("so-cart", JSON.stringify(updatedCartItems));
   renderCartContents();
+  updateCartCount();
 }
