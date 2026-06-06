@@ -2,15 +2,29 @@ import { loadHeaderFooter, getParam } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 import ProductList from "./ProductList.mjs";
 
-loadHeaderFooter();
+// Add this function at the top
+function updateCartCount() {
+  const cartItems = JSON.parse(localStorage.getItem("so-cart")) || [];
+  const totalCount = cartItems.reduce(
+    (sum, item) => sum + (item.quantity || 1),
+    0,
+  );
+
+  const countElement = document.querySelector(".cart-count");
+  if (countElement) {
+    countElement.textContent = totalCount;
+    countElement.style.display = totalCount > 0 ? "block" : "none";
+  }
+}
+
+// Load header THEN update cart count
+loadHeaderFooter().then(() => {
+  updateCartCount();
+});
 
 const category = getParam("category");
-//create an instance of the ExternalServices class
 const dataSource = new ExternalServices();
-//get the element from the product list that you want to render
 const element = document.querySelector(".product-list");
-//create an instance of the ProductList class and send it the correct informatio
 const listing = new ProductList(category, dataSource, element);
-//call the init method to render the product list
 
 listing.init();
